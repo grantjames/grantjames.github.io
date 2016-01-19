@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Bubbles test</title>
+		<style>
+			body {
+				background-color: #000;
+				font-family: Helvetica, sans-serif;
+				color: #fff;
+			}
+			h1 {
+				text-align: center;
+				font-size: 4em;
+			}
+			#my-div {
+				width: 500px;
+				height: 500px;
+				background: #22b799;
+				background: linear-gradient(135deg, #22b799 0%,#258dc8 50%,#5b1c93 100%);
+				border-radius: 5px;
+				margin: 10px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Bubbles test</h1>
+		<div id="my-div"></div>
+
+		<script src="src/GJBubbles.js"></script>
+		<script>
+			GJBubbles.init('my-div', {bubble_count: 10});
+		</script>
+	</body>
+</html>
+
+<!-- smaller - blurryer and less transparent, slower?
+bigger - sharper and more transparent, faster? -->
