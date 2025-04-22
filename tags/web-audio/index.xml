@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web-audio on Grant James</title>
+    <link>http://grantjam.es/tags/web-audio/</link>
+    <description>Recent content in web-audio on Grant James</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 10 Aug 2020 13:00:00 +0000</lastBuildDate><atom:link href="http://grantjam.es/tags/web-audio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating a simple metronome using Javascript and the Web Audio API</title>
+      <link>http://grantjam.es/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</link>
+      <pubDate>Mon, 10 Aug 2020 13:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</guid>
+      <description>&lt;p&gt;How to accurately schedule audio events when writing a time sensitive Javascript application.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

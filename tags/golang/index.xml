@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on Grant James</title>
+    <link>http://grantjam.es/tags/golang/</link>
+    <description>Recent content in golang on Grant James</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Fri, 08 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://grantjam.es/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Concurrency: Comparing Golang&#39;s Channels to C#&#39;s Async/Await</title>
+      <link>http://grantjam.es/concurrency-comparing-golangs-channels-to-c-sharps-asyncawait/</link>
+      <pubDate>Fri, 08 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/concurrency-comparing-golangs-channels-to-c-sharps-asyncawait/</guid>
+      <description>&lt;p&gt;Comparing concurrency in Go (golang) with C#&amp;rsquo;s Async/Await.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

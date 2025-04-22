@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>javascript on Grant James</title>
+    <link>http://grantjam.es/tags/javascript/</link>
+    <description>Recent content in javascript on Grant James</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 10 Aug 2020 13:00:00 +0000</lastBuildDate><atom:link href="http://grantjam.es/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating a simple metronome using Javascript and the Web Audio API</title>
+      <link>http://grantjam.es/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</link>
+      <pubDate>Mon, 10 Aug 2020 13:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</guid>
+      <description>&lt;p&gt;How to accurately schedule audio events when writing a time sensitive Javascript application.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recreating the old iCloud background using Javascript and a HTML Canvas</title>
+      <link>http://grantjam.es/recreating-the-old-icloud-background-using-javascript-and-a-html-canvas/</link>
+      <pubDate>Mon, 04 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/recreating-the-old-icloud-background-using-javascript-and-a-html-canvas/</guid>
+      <description>&lt;p&gt;In this post, I go through the steps I took to recreate the background that used to be on the iCloud web site - blurry bubbles!&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

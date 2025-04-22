@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lubuntu on Grant James</title>
+    <link>http://grantjam.es/tags/lubuntu/</link>
+    <description>Recent content in Lubuntu on Grant James</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Sat, 24 Jun 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://grantjam.es/tags/lubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Lubuntu on an Acer Aspire One Cloudbook 11</title>
+      <link>http://grantjam.es/installing-lubuntu-on-an-acer-aspire-one-cloudbook-11/</link>
+      <pubDate>Sat, 24 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/installing-lubuntu-on-an-acer-aspire-one-cloudbook-11/</guid>
+      <description>&lt;p&gt;I wanted a cheap laptop with a decent battery life to run a Linux distribution on and decided on the Acer Aspire One Cloudbook 11. This post details what I did after installing Lubuntu.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Grant James</title>
+    <link>http://grantjam.es/</link>
+    <description>Recent content on Grant James</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Fri, 08 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://grantjam.es/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Concurrency: Comparing Golang&#39;s Channels to C#&#39;s Async/Await</title>
+      <link>http://grantjam.es/concurrency-comparing-golangs-channels-to-c-sharps-asyncawait/</link>
+      <pubDate>Fri, 08 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/concurrency-comparing-golangs-channels-to-c-sharps-asyncawait/</guid>
+      <description>&lt;p&gt;Comparing concurrency in Go (golang) with C#&amp;rsquo;s Async/Await.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://grantjam.es/about/</link>
+      <pubDate>Thu, 17 Mar 2022 14:06:34 +0000</pubDate>
+      
+      <guid>http://grantjam.es/about/</guid>
+      <description>Grant is a software developer from Birmingham.
+Graduating from university in 2009 with a 1st in Computer Science, he jumped straight into the industry coding websites and, later, mobile applications too.
+He doesn&amp;rsquo;t always write about himself in the third person, but when he does it&amp;rsquo;s because he wants to sound like a robot (or when he&amp;rsquo;s trying to be professional and write a bio like this). The human side of Grant likes music, cooking, running and spending time with his wife and sons.</description>
+    </item>
+    
+    <item>
+      <title>Creating a simple metronome using Javascript and the Web Audio API</title>
+      <link>http://grantjam.es/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</link>
+      <pubDate>Mon, 10 Aug 2020 13:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</guid>
+      <description>&lt;p&gt;How to accurately schedule audio events when writing a time sensitive Javascript application.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recreating the old iCloud background using Javascript and a HTML Canvas</title>
+      <link>http://grantjam.es/recreating-the-old-icloud-background-using-javascript-and-a-html-canvas/</link>
+      <pubDate>Mon, 04 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/recreating-the-old-icloud-background-using-javascript-and-a-html-canvas/</guid>
+      <description>&lt;p&gt;In this post, I go through the steps I took to recreate the background that used to be on the iCloud web site - blurry bubbles!&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Light and Dark theme toggle on a Laravel website</title>
+      <link>http://grantjam.es/light-and-dark-theme-toggle-on-a-laravel-website/</link>
+      <pubDate>Sun, 29 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/light-and-dark-theme-toggle-on-a-laravel-website/</guid>
+      <description>&lt;p&gt;I find using a dark theme for my IDE and operating system is much easier on my eyes, so I use it wherever possible. In this post I explain how to create a toggle button to switch a Laravel website between light and dark themes.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Replacing a Danfoss TP9000 with a 3rd Generation Nest</title>
+      <link>http://grantjam.es/replacing-a-danfoss-tp9000-with-a-3rd-generation-nest/</link>
+      <pubDate>Sat, 18 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/replacing-a-danfoss-tp9000-with-a-3rd-generation-nest/</guid>
+      <description>&lt;p&gt;Step by step instructions on how to wire up a 3rd generation Nest in place of a Danfoss TP9000.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Installing Lubuntu on an Acer Aspire One Cloudbook 11</title>
+      <link>http://grantjam.es/installing-lubuntu-on-an-acer-aspire-one-cloudbook-11/</link>
+      <pubDate>Sat, 24 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/installing-lubuntu-on-an-acer-aspire-one-cloudbook-11/</guid>
+      <description>&lt;p&gt;I wanted a cheap laptop with a decent battery life to run a Linux distribution on and decided on the Acer Aspire One Cloudbook 11. This post details what I did after installing Lubuntu.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

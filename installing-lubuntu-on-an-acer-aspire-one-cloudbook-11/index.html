@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    
+    
+    <title>Installing Lubuntu on an Acer Aspire One Cloudbook 11 | Grant James</title>
+</head><body>
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-141186556-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><header class="header">
+    <div class="main-container">
+        <a href="/" class="header-logo">
+            <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
+                <path fill="none" d="M15 8l14.729 14.382L15 35.367"></path>
+              </svg>
+            </span>
+            <span class="logo__text">Grant James</span>
+            <span class="logo__cursor">_</span>
+        </a>
+
+        
+    </div>
+</header><div class="main-container">
+    <div class="blog-post">
+        <h1>Installing Lubuntu on an Acer Aspire One Cloudbook 11</h1>
+        
+
+<time datetime="2017-06-24" class="post-date">24 June 2017</time>
+
+    
+        
+        <a class="tag-link" href="http://grantjam.es/tags/lubuntu">Lubuntu</a>
+    
+        
+        <a class="tag-link" href="http://grantjam.es/tags/linux">linux</a>
+    
+
+        <p>I wanted a cheap laptop with a decent battery life to run a Linux distribution on and decided on the Acer Aspire One Cloudbook 11. This post details what I did after installing Lubuntu.</p>
+<blockquote>
+<p><strong>EDIT:</strong> The original post is still below, however, after trying Arch for a while (which was awesome but time consuming) and then Ubuntu (which was a little too heavy), I finally settled on Xubuntu which <em>Just Works™</em>.</p>
+</blockquote>
+<p>My main computer is a Macbook Pro but I wanted something smaller, lighter and inexpensive that I could just throw into my bag and use on the train on the way into work. I decided on the <!-- raw HTML omitted -->Acer Aspire One Cloudbook 11<!-- raw HTML omitted --> which I bought second hand off eBay for about £85.</p>
+<h2 id="removing-windows">Removing Windows</h2>
+<p>I bought the laptop with the intention of running <!-- raw HTML omitted -->Lubuntu<!-- raw HTML omitted -->, a light weight version of Ubuntu, since I found out most of the laptop&rsquo;s functionality would work without much configuration.</p>
+<p>I created a Lubuntu bootable USB stick on my Mac and installed without any problems. The laptop came installed with Windows 10 which I overwrote. I&rsquo;m not really a fan of Windows and the laptop really struggled to run it anyway (not to mention the storage on the laptop is only 32GB of eMMC memory). Lubuntu was much less demanding of the modest Intel Celeron N3050 processor and 2 GB RAM.</p>
+<h2 id="reverse-scrolling">Reverse Scrolling</h2>
+<p>Being a Mac user I&rsquo;m used to the &ldquo;natural&rdquo; or &ldquo;reverse&rdquo; scrolling that was introduced in OSX Lion. This was easy enough to configure. First copy</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/share/X11/xorg.conf.d/50-synaptics.conf
+</span></span></code></pre></div><p>to</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/etc/X11/xorg.conf.d/50-synaptics.conf
+</span></span></code></pre></div><p>and add the following options into the first <code>InputClass</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Option <span style="color:#e6db74">&#34;VertScrollDelta&#34;</span> <span style="color:#e6db74">&#34;-46&#34;</span>
+</span></span><span style="display:flex;"><span>Option <span style="color:#e6db74">&#34;HorizScrollDelta&#34;</span> <span style="color:#e6db74">&#34;-46&#34;</span>
+</span></span><span style="display:flex;"><span>Option <span style="color:#e6db74">&#34;HorizTwoFingerScroll&#34;</span> <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span></code></pre></div><p>I also prefer to have the whole trackpad as a left click and so stopped the lower right area from being a right click by adding</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Option <span style="color:#e6db74">&#34;SoftButtonAreas&#34;</span> <span style="color:#e6db74">&#34;0 0 0 0 0 0 0 0&#34;</span>
+</span></span></code></pre></div><p>You can run <code>synclient</code> in the terminal to get all options and run <code>man synaptics</code> for the manual page that describes what each option does.</p>
+<h2 id="disabling-the-trackpad-whilst-typing">Disabling the trackpad whilst typing</h2>
+<p>I kept accidentally touching the trackpad with part of my hand whilst typing. You can disable the trackpad whilst typing by running the following in the terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>syndaemon -i 0.5 -t -K -R -d
+</span></span></code></pre></div><p>The 0.5 after the -i is the idle time, i.e. the time it takes for the trackpad to become usable again after finishing pressing a key. I set this to half a second and it seemed to be just right.</p>
+<p>The -t option makes it so that only taps and scrolls are ignored. It&rsquo;s still possible to move the cursor whilst typing.</p>
+<p>The -K option ignores modifier keys whilst monitoring for keyboard activity. For example, it enables you to still move the cursor and click whilst holding keys such as shift and ctrl.</p>
+<p>-R uses the XRecord  extension  for  detecting  keyboard  activity instead of polling the keyboard state. I&rsquo;m not sure exactly what this is, but it sounds like a better option than polling for key presses constantly!</p>
+<p>Lastly the -d option tells syndaemon to run as a daemon in the background.</p>
+<p>Under &ldquo;Preferences&rdquo; in the menu theres a &ldquo;Default applications for lxsession&rdquo; option. In the autostart section I added the command above so that it is run on login.</p>
+<p>If you prefer to make configuration changes using files, the &ldquo;Default applications for lxsession&rdquo; program updates the following file (one command per line):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>~/.config/lxsession/Lubuntu/autostart
+</span></span></code></pre></div><h2 id="adjusting-the-backlight-with-xbacklight">Adjusting the backlight with xbacklight</h2>
+<p>The following information is here just for completeness, but may not be required. For some reason the function keys to adjust the backlight weren&rsquo;t working at first, so I messed with xbacklight to get them working, but then found that just ticking &ldquo;Handle display brightness keys&rdquo; in Preferences &gt; Power manager worked.</p>
+<p>If for some reason this doesn&rsquo;t work, you can use xbacklight to change the screen brightness.</p>
+<p>First create a new file in /etc/X11/xorg.conf.d ending in .conf such as &ldquo;10-backlight-conf&rdquo; and add the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Section <span style="color:#e6db74">&#34;Device&#34;</span>
+</span></span><span style="display:flex;"><span>Identifier  <span style="color:#e6db74">&#34;Card0&#34;</span>
+</span></span><span style="display:flex;"><span>Driver      <span style="color:#e6db74">&#34;intel&#34;</span>
+</span></span><span style="display:flex;"><span>Option      <span style="color:#e6db74">&#34;Backlight&#34;</span>  <span style="color:#e6db74">&#34;intel_backlight&#34;</span>
+</span></span><span style="display:flex;"><span>EndSection
+</span></span></code></pre></div><p>Now <code>xbacklight -[dec|inc] [percentage]</code> should work in the terminal. You can use lxhotkey to assign keys to run the xbacklight command above (more on lxhotkey below).</p>
+<h2 id="getting-the-hotkeys-working">Getting the hotkeys working</h2>
+<p>This was what I spent most of my time configuring. I&rsquo;ll go through them one by one. Getting them to work involved adding commands to the LXHotkey program which you can find under Preferences &gt; Setup Hot Keys.</p>
+<p>Note lxhotkey adds any configuration options to the following file if you prefer to edit the file manually:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>~/.config/openbox/lubuntu-rc.xml
+</span></span></code></pre></div><h3 id="f1-and-f1-brightness-keys">F1 and F1: Brightness keys</h3>
+<p>See &ldquo;Adjusting the backlight with xbacklight&rdquo; above.</p>
+<h3 id="f3-wifi-toggle">F3: Wifi toggle</h3>
+<p>Unfortunately I haven&rsquo;t been able to get this one working yet, but turning off the wifi isn&rsquo;t something I need to do often and it&rsquo;s easy enough to do it by clicking on the wireless icon in the task bar and clicking &ldquo;Enable Wi-Fi&rdquo;.</p>
+<h3 id="f4-sleep">F4: Sleep</h3>
+<p>This triggers the XF86Sleep keycode. Open lxhotkey and click the button to create a new action. Click in the Hotkey1 box, hold function and press F and you&rsquo;ll see that XF86Sleep appears in the box. In the commandline box, add the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lxsession-logout
+</span></span></code></pre></div><h3 id="f5-switch-display-to-external-monitor">F5: Switch display to external monitor</h3>
+<p>I&rsquo;ve not tested this, but pressing this key outputs <code>Super + P</code> which is the shortcut on Windows to switch to an external display. I presume it works because it causes my screen to go blank when I press it.</p>
+<h3 id="f6-turn-the-display-off">F6: Turn the display off</h3>
+<p>This turns the display off and I believe this works in hardware because no keycode gets triggered when pressing this key.</p>
+<h3 id="f7-disable-the-trackpad">F7: Disable the trackpad</h3>
+<p>I&rsquo;ve not got this working, but it&rsquo;s supposed to disable the trackpad. It doesn&rsquo;t trigger a keycode so I think it probably relies on a driver in Windows.</p>
+<h3 id="f8---f10-mute-volume-down-and-volume-up">F8 - F10: Mute, Volume down and Volume up</h3>
+<p>To get these working, press the relevant key in lxhotkey and add the following commands:</p>
+<p>For mute/unmute:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>amixer -q -D pulse sset Master toggle
+</span></span></code></pre></div><p>Volume down:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>amixer -q -D pulse sset Master 3%- unmute
+</span></span></code></pre></div><p>Volume up:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>amixer -q -D pulse sset Master 3%+ unmute
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>I&rsquo;ve managed to get this laptop to do exactly what I wanted and it cost me less than £100. It runs really well with Lubuntu and is perfect for coding on the train!</p>
+<p>If you have any trouble getting things working let me know by commenting on this post and I&rsquo;ll see if I can help!</p>
+
+        
+
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "gjames" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+
+        </div><div class="main-container">
+    <footer class="footer">
+        <ul class="footer__icons">
+            <li>
+                <a href="/about">
+                    <i class="icon-user-o"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/grantjames" target="_blank">
+                    <i class="icon-github-circled"></i>
+                </a>
+            </li>
+            <li>
+                <a href="http://uk.linkedin.com/pub/grant-james/58/210/766" target="_blank">
+                    <i class="icon-linkedin-squared"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://twitter.com/grantjame5" target="_blank">
+                    <i class="icon-twitter"></i>
+                </a>
+            </li>
+        </ul>
+
+        <div class="footer-text">Software Engineer from Birmingham, UK</div>
+    </footer>
+</div></body>
+</html>

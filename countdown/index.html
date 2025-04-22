@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <link rel="preload" as="image" href="jared1.gif">
+    <link rel="preload" as="image" href="jared2.gif">
+    <style>
+        * { margin:0;padding:0}
+        html, body {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            flex-direction: column;
+            background-color: rgb(47, 55, 55);
+            color: rgb(233, 233, 233);
+            font-size: 30px;
+            padding: 20px;
+        }
+        #days_left {
+            font-weight: bold;
+        }
+        div {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        Hang in there <span id="who"></span>!
+    </div>
+
+    <div>
+        Only <span id="days_left"></span> working days left to go!
+    </div>
+
+    <img id="jared" src="" alt="jared">
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const last_day = urlParams.get("last_day") ?? "2022-05-20";
+        const name = urlParams.get("name") ?? "Grant";
+        const daysOff = urlParams.get("days_off") ?? 0;
+
+        const who_span = document.getElementById("who");
+        who_span.innerText = name;
+
+        const days_left_span = document.getElementById("days_left");
+        let days_left = getBusinessDays(new Date(last_day));
+        days_left_span.innerText = days_left - daysOff; 
+
+        const jared_img = document.getElementById("jared");
+        jared_img.src = "jared1.gif";
+        if (days_left <= 5) {
+            jared_img.src = "jared2.gif";
+        }
+        
+        function getBusinessDays(endDateStr) {
+            startDate = new Date();
+            startDate.setHours(0,0,0,0);
+            endDate = new Date(endDateStr)
+            let count = 0;
+            const curDate = startDate;
+            while (curDate <= endDate) {
+                const dayOfWeek = curDate.getDay();
+                if(dayOfWeek !== 0 && dayOfWeek !== 6) {
+                    count++;
+                }
+                curDate.setDate(curDate.getDate() + 1);
+            }
+
+            return count;
+        }
+    </script>
+</body>
+</html>

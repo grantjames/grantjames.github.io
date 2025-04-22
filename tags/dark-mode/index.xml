@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dark-mode on Grant James</title>
+    <link>http://grantjam.es/tags/dark-mode/</link>
+    <description>Recent content in dark-mode on Grant James</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Sun, 29 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://grantjam.es/tags/dark-mode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Light and Dark theme toggle on a Laravel website</title>
+      <link>http://grantjam.es/light-and-dark-theme-toggle-on-a-laravel-website/</link>
+      <pubDate>Sun, 29 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://grantjam.es/light-and-dark-theme-toggle-on-a-laravel-website/</guid>
+      <description>&lt;p&gt;I find using a dark theme for my IDE and operating system is much easier on my eyes, so I use it wherever possible. In this post I explain how to create a toggle button to switch a Laravel website between light and dark themes.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
