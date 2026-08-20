@@ -2,70 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://grantjam.es/</loc>
+    <loc>https://grantjames.github.io/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>http://grantjam.es/tags/.net/</loc>
+    <loc>https://grantjames.github.io/tags/.net/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/blog/</loc>
+    <loc>https://grantjames.github.io/blog/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/concurrency/</loc>
+    <loc>https://grantjames.github.io/tags/concurrency/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/concurrency-comparing-golangs-channels-to-c-sharps-asyncawait/</loc>
+    <loc>https://grantjames.github.io/concurrency-comparing-golangs-channels-to-c-sharps-asyncawait/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/golang/</loc>
+    <loc>https://grantjames.github.io/tags/golang/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/</loc>
+    <loc>https://grantjames.github.io/tags/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/about/</loc>
+    <loc>https://grantjames.github.io/about/</loc>
     <lastmod>2022-03-17T14:06:34+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</loc>
+    <loc>https://grantjames.github.io/creating-a-simple-metronome-using-javascript-and-the-web-audio-api/</loc>
     <lastmod>2020-08-10T13:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/javascript/</loc>
+    <loc>https://grantjames.github.io/tags/javascript/</loc>
     <lastmod>2020-08-10T13:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/web-audio/</loc>
+    <loc>https://grantjames.github.io/tags/web-audio/</loc>
     <lastmod>2020-08-10T13:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/html-canvas/</loc>
+    <loc>https://grantjames.github.io/tags/html-canvas/</loc>
     <lastmod>2020-05-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/recreating-the-old-icloud-background-using-javascript-and-a-html-canvas/</loc>
+    <loc>https://grantjames.github.io/recreating-the-old-icloud-background-using-javascript-and-a-html-canvas/</loc>
     <lastmod>2020-05-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/dark-mode/</loc>
+    <loc>https://grantjames.github.io/tags/dark-mode/</loc>
     <lastmod>2019-09-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/laravel/</loc>
+    <loc>https://grantjames.github.io/tags/laravel/</loc>
     <lastmod>2019-09-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/light-and-dark-theme-toggle-on-a-laravel-website/</loc>
+    <loc>https://grantjames.github.io/light-and-dark-theme-toggle-on-a-laravel-website/</loc>
     <lastmod>2019-09-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/nest/</loc>
+    <loc>https://grantjames.github.io/tags/nest/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/replacing-a-danfoss-tp9000-with-a-3rd-generation-nest/</loc>
+    <loc>https://grantjames.github.io/replacing-a-danfoss-tp9000-with-a-3rd-generation-nest/</loc>
     <lastmod>2019-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/installing-lubuntu-on-an-acer-aspire-one-cloudbook-11/</loc>
+    <loc>https://grantjames.github.io/installing-lubuntu-on-an-acer-aspire-one-cloudbook-11/</loc>
     <lastmod>2017-06-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/linux/</loc>
+    <loc>https://grantjames.github.io/tags/linux/</loc>
     <lastmod>2017-06-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/tags/lubuntu/</loc>
+    <loc>https://grantjames.github.io/tags/lubuntu/</loc>
     <lastmod>2017-06-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://grantjam.es/categories/</loc>
+    <loc>https://grantjames.github.io/categories/</loc>
   </url>
 </urlset>
