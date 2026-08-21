@@ -38,10 +38,6 @@
     content: "\F30C";
 }
 
-.icon-twitter:before {
-    content: "\F099";
-}
-
 [class*=" icon-"]:before, [class^=icon-]:before {
     font-family: icons;
     font-style: normal;
