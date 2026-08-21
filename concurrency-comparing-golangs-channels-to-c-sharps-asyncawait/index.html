@@ -8,18 +8,20 @@
     <title>Concurrency: Comparing Golang&#39;s Channels to C#&#39;s Async/Await | Grant James</title>
 </head><body>
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-141186556-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script><header class="header">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEFF56CQKL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XEFF56CQKL');
+        }
+      </script><header class="header">
     <div class="main-container">
         <a href="/" class="header-logo">
             <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
@@ -54,7 +56,7 @@ if (!doNotTrack) {
 <p>I&rsquo;ve recently started to experiment with Google&rsquo;s Go and, coming from a C# background, it was interesting to see how concurrency is managed. In this post I will compare the two using an analogy of making coffee.</p>
 <h2 id="asyncawait">Async/Await</h2>
 <p>C# uses the <code>async</code> and <code>await</code> keywords to handle concurrency. You mark an asynchronous method with the <code>async</code> keyword, and if you want to wait for that method to return something (i.e. call it synchronously) you can use <code>await</code>. But first let&rsquo;s look at a synchronous example.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Start making coffee...&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Start making coffee...&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Boiling the kettle&#34;</span>);
 </span></span><span style="display:flex;"><span>Task.Delay(<span style="color:#ae81ff">3000</span>).Wait();
@@ -69,7 +71,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Pouring boiling water...&#34;</span>);
 </span></span><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Stirring coffee...&#34;</span>);
 </span></span></code></pre></div><p>In this example, the code would take 5 seconds to run. Each step is finished before continuing to the next. However, there&rsquo;s no reason why you can&rsquo;t prepare your mug with the coffee and sugar whilst the kettle is still boiling. This can be handled using async/await as follows.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Start making coffee...&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Console.WriteLine(<span style="color:#e6db74">&#34;Start making coffee...&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> Task BoilKettle() {
 </span></span><span style="display:flex;"><span>    Console.WriteLine(<span style="color:#e6db74">&#34;Boiling the kettle&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> Task.Delay(<span style="color:#ae81ff">3000</span>);
@@ -92,7 +94,7 @@ if (!doNotTrack) {
 <p>By the way, although it&rsquo;s not the focus of this post, to return an actual value from an asynchronous function, for example a string, you can use generics and set the return type to <code>Task&lt;string&gt;</code>. Then, when you <code>await</code> the result of the method you&rsquo;ll get the string value back and not the task. Although it&rsquo;s not valid code, <code>Task</code> is effectively equivalent to <code>Task&lt;void&gt;</code>.</p>
 <h2 id="channels-in-go">Channels in Go</h2>
 <p>In Go, there is no async/await. Instead, communication across concurrent threads is done via channels.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -110,9 +112,9 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">boil_kettle</span>()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// There&#39;s an extra sleep here since go was running the following
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// print statement before even starting the goroutine
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// There&#39;s an extra sleep here since go was running the following</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// print statement before even starting the goroutine</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Adding instant coffee to the mug...&#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
 </span></span><span style="display:flex;"><span>
@@ -149,9 +151,9 @@ if (!doNotTrack) {
         
 
         <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
-    
+    this.page.identifier = '\/posts\/10';
     
     
     };
@@ -166,8 +168,9 @@ if (!doNotTrack) {
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
 
     </div>
 

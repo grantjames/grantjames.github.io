@@ -8,18 +8,20 @@
     <title>Recreating the old iCloud background using Javascript and a HTML Canvas | Grant James</title>
 </head><body>
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-141186556-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script><header class="header">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEFF56CQKL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XEFF56CQKL');
+        }
+      </script><header class="header">
     <div class="main-container">
         <a href="/" class="header-logo">
             <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
@@ -51,34 +53,34 @@ if (!doNotTrack) {
 <p><img src="icloud_dashboard.jpg" alt="Old iCloud Dashboard"></p>
 <p>The above image shows what the iCloud web site used to look like. The background was animated and randomly generated. I really liked this effect and so re-created it myself using Javascript and a HTML Canvas element.</p>
 <blockquote>
-<p>I&rsquo;ll only post relevant code snippets to illustrate any concepts. For the full code I recommend that you <a href="https://github.com/grantjames/GJBubbles">view the project on Github</a>.</p>
+<p>I&rsquo;ll only post relevant code snippets to illustrate any concepts. For the full code I recommend that you <a href="https://github.com/grantjames/GJBubbles" target="_blank" rel="noopener">view the project on Github</a>.</p>
 </blockquote>
 <h2 id="creating-a-javascript-module">Creating a Javascript module</h2>
-<p>To keep the library/package/module/whatever-you-want-to-call-it self contained and to keep from polluting the global namespace, we can define everything in an <em><a href="https://developer.mozilla.org/en-US/docs/Glossary/IIFE">Immediately-Invoked Function Expression</a></em>. This simply means we can start with the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">GJBubbles</span> <span style="color:#f92672">=</span> (<span style="color:#66d9ef">function</span> () {
+<p>To keep the library/package/module/whatever-you-want-to-call-it self contained and to keep from polluting the global namespace, we can define everything in an <em><a href="https://developer.mozilla.org/en-US/docs/Glossary/IIFE" target="_blank" rel="noopener">Immediately-Invoked Function Expression</a></em>. This simply means we can start with the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">GJBubbles</span> <span style="color:#f92672">=</span> (<span style="color:#66d9ef">function</span> () {
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Module implementation goes here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> {}; <span style="color:#75715e">// Publicly accessible methods and properties go here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>})();
+</span></span></span><span style="display:flex;"><span>})();
 </span></span></code></pre></div><p>Anything we put inside the function will be &ldquo;private&rdquo; and anything inside the object that&rsquo;s returned will be &ldquo;public&rdquo;. We&rsquo;ll put the inner workings inside the private scope and then the public API inside the returned object.</p>
 <h2 id="the-bubble-object">The &ldquo;bubble&rdquo; object</h2>
 <p>Are these really bubbles? Perhaps I should have called them orbs. Anyway, the bubble object looks like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Bubble</span>(<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">dx</span>, <span style="color:#a6e22e">dy</span>, <span style="color:#a6e22e">radius</span>, <span style="color:#a6e22e">opacity</span>, <span style="color:#a6e22e">blur</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Bubble</span>(<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">dx</span>, <span style="color:#a6e22e">dy</span>, <span style="color:#a6e22e">radius</span>, <span style="color:#a6e22e">opacity</span>, <span style="color:#a6e22e">blur</span>)
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Assign the function parameters to local variables
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">x</span>; <span style="color:#75715e">// etc...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// Draw the circle
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">x</span>; <span style="color:#75715e">// etc...
+</span></span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Draw the circle
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">draw</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">canvas</span>, <span style="color:#a6e22e">context</span>) {
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Check the bounds of the bubble
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">checkBounds</span>(<span style="color:#a6e22e">canvas</span>);
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">checkBounds</span>(<span style="color:#a6e22e">canvas</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Move the bubble
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">x</span> <span style="color:#f92672">+=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">dx</span>;
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">x</span> <span style="color:#f92672">+=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">dx</span>;
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">y</span> <span style="color:#f92672">+=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">dy</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Draw the bubble using a radial gradient
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">radgrad</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">createRadialGradient</span>(...);
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">radgrad</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">createRadialGradient</span>(...);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">radgrad</span>.<span style="color:#a6e22e">addColorStop</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#39;rgba(255,255,255,&#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">opacity</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;)&#39;</span>);
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">radgrad</span>.<span style="color:#a6e22e">addColorStop</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;rgba(255,255,255,0)&#39;</span>);
@@ -88,15 +90,15 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>	};
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Checks to see if the bubble is out of bounds of the passed in canvas and reverses the direction
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">checkBounds</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">canvas</span>) {
+</span></span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">checkBounds</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">canvas</span>) {
 </span></span><span style="display:flex;"><span>		...
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>There&rsquo;s a lot more going on here in the actual code (<a href="https://github.com/grantjames/GJBubbles/blob/master/src/GJBubbles.js">here</a>), but for simplicity I&rsquo;ve stripped a few things out such as parameter assignments, validation and animating the bubble in. The main things to focus on are the <code>draw()</code> and the <code>checkBounds()</code> functions. <code>draw()</code> calls <code>checkBounds()</code> to see if the bubble has reached the edge of the canvas that it&rsquo;s on and if it has, makes it &ldquo;bounce&rdquo; off in a different direction by inverting the values in the movement deltas. It then moves the bubble and draws it in its new location.</p>
+</span></span></code></pre></div><p>There&rsquo;s a lot more going on here in the actual code (<a href="https://github.com/grantjames/GJBubbles/blob/master/src/GJBubbles.js" target="_blank" rel="noopener">here</a>), but for simplicity I&rsquo;ve stripped a few things out such as parameter assignments, validation and animating the bubble in. The main things to focus on are the <code>draw()</code> and the <code>checkBounds()</code> functions. <code>draw()</code> calls <code>checkBounds()</code> to see if the bubble has reached the edge of the canvas that it&rsquo;s on and if it has, makes it &ldquo;bounce&rdquo; off in a different direction by inverting the values in the movement deltas. It then moves the bubble and draws it in its new location.</p>
 <p>Note that the amount the bubble is blurred is proportionate to the bubble&rsquo;s size (smaller bubbles are more blurry).</p>
 <h2 id="drawing-all-the-bubbles">Drawing all the bubbles</h2>
 <p>Next, we need a function to loop over an array of bubbles and draw them onto a canvas. Notice how we recursively pass the same function to window.requestAnimationFrame so that the bubbles get redrawn each frame.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">draw</span>(<span style="color:#a6e22e">bubbles</span>, <span style="color:#a6e22e">canvas</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">draw</span>(<span style="color:#a6e22e">bubbles</span>, <span style="color:#a6e22e">canvas</span>)
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">getContext</span>(<span style="color:#e6db74">&#39;2d&#39;</span>);
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">clearRect</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">height</span>);
@@ -109,29 +111,29 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="creating-the-public-api">Creating the public API</h2>
 <p>I wanted this to be able to be included on a web page and then easily added to a containing element, so in the return statement I have an <code>init()</code> function that takes an ID of a container and a list of options. The options are values like how many bubbles you&rsquo;d like and the minimum and maximum values you want each bubble property to be (for example, the size, speed and opacity).</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// How many bubbles, max and min speed, size etc.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	},
+</span></span></span><span style="display:flex;"><span>	},
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">init</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">container_id</span>, <span style="color:#a6e22e">options</span>) {
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Get the options, overwriting defaults
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Get the container, create a canvas and append it as a child
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">container</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#a6e22e">container_id</span>);
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">container</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#a6e22e">container_id</span>);
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">canvas</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;canvas&#34;</span>); 
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">canvas</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Set the canvas size to be the same as the container
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">bubbles</span> <span style="color:#f92672">=</span> [];
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Create the bubbles using setInterval to stagger their creation
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">self</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">self</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">interval</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>() {
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">radius</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">randomBetween</span>(<span style="color:#a6e22e">min_radius</span>, <span style="color:#a6e22e">max_radius</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>			<span style="color:#75715e">// The next two options make bubbles that are smaller appear blurrier and more transparent. Bigger ones are more in focus and opaque.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">blur</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span> <span style="color:#f92672">-</span> (<span style="color:#a6e22e">radius</span> <span style="color:#f92672">-</span> (<span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">min_radius</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span>))) <span style="color:#f92672">/</span> ((<span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">max_radius</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span>)) <span style="color:#f92672">-</span> (<span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">min_radius</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span>)));
+</span></span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">blur</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span> <span style="color:#f92672">-</span> (<span style="color:#a6e22e">radius</span> <span style="color:#f92672">-</span> (<span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">min_radius</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span>))) <span style="color:#f92672">/</span> ((<span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">max_radius</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span>)) <span style="color:#f92672">-</span> (<span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> (<span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">min_radius</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span>)));
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">opacity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">blur</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">max_opacity</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">opacity</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">min_opacity</span>) {
@@ -158,14 +160,14 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h2 id="putting-it-all-together">Putting it all together</h2>
 <p>To use the module, add the following to a web page:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-div&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-div&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/GJBubbles.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">GJBubbles</span>.<span style="color:#a6e22e">init</span>(<span style="color:#e6db74">&#39;my-div&#39;</span>, {<span style="color:#a6e22e">bubble_count</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>});
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
-</span></span></code></pre></div><p><a href="http://grantjames.github.io/gjbubbles/">View a demo</a></p>
-<p>As mentioned before, to keep this post from getting too code-heavy, I&rsquo;ve stripped bits out, so be sure to <a href="https://github.com/grantjames/GJBubbles">check out the repository on GitHub</a>.</p>
+</span></span></code></pre></div><p><a href="http://grantjames.github.io/gjbubbles/" target="_blank" rel="noopener">View a demo</a></p>
+<p>As mentioned before, to keep this post from getting too code-heavy, I&rsquo;ve stripped bits out, so be sure to <a href="https://github.com/grantjames/GJBubbles" target="_blank" rel="noopener">check out the repository on GitHub</a>.</p>
 
         
             <div class="coffee-container">
@@ -183,9 +185,9 @@ if (!doNotTrack) {
         
 
         <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
-    
+    this.page.identifier = '\/posts\/11';
     
     
     };
@@ -200,8 +202,9 @@ if (!doNotTrack) {
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
 
     </div>
 

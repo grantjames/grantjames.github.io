@@ -3,14 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://grantjames.github.io/</loc>
-    <lastmod>2022-04-08T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://grantjames.github.io/tags/.net/</loc>
-    <lastmod>2022-04-08T00:00:00+00:00</lastmod>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://grantjames.github.io/blog/</loc>
-    <lastmod>2022-04-08T00:00:00+00:00</lastmod>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://grantjames.github.io/tags/design-patterns/</loc>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://grantjames.github.io/tags/frontend/</loc>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://grantjames.github.io/tags/react/</loc>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://grantjames.github.io/reducers-keeping-state-transitions-under-control/</loc>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://grantjames.github.io/tags/state-management/</loc>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://grantjames.github.io/tags/</loc>
+    <lastmod>2026-08-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://grantjames.github.io/tags/concurrency/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
@@ -18,10 +32,10 @@
     <loc>https://grantjames.github.io/concurrency-comparing-golangs-channels-to-c-sharps-asyncawait/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://grantjames.github.io/tags/golang/</loc>
+    <loc>https://grantjames.github.io/tags/dotnet/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://grantjames.github.io/tags/</loc>
+    <loc>https://grantjames.github.io/tags/golang/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://grantjames.github.io/about/</loc>

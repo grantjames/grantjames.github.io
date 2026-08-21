@@ -8,18 +8,20 @@
     <title>Creating a simple metronome using Javascript and the Web Audio API | Grant James</title>
 </head><body>
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-141186556-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script><header class="header">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEFF56CQKL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XEFF56CQKL');
+        }
+      </script><header class="header">
     <div class="main-container">
         <a href="/" class="header-logo">
             <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
@@ -49,7 +51,7 @@ if (!doNotTrack) {
 
         <p>How to accurately schedule audio events when writing a time sensitive Javascript application.</p>
 <blockquote>
-<p><a href="https://grantjames.github.io/metronome/">Try out the demo</a> or <a href="https://github.com/grantjames/metronome">view the code on GitHub</a></p>
+<p><a href="https://grantjames.github.io/metronome/" target="_blank" rel="noopener">Try out the demo</a> or <a href="https://github.com/grantjames/metronome" target="_blank" rel="noopener">view the code on GitHub</a></p>
 </blockquote>
 <p>I&rsquo;ve been practising guitar a lot more lately and trying to build up speed - so keeping in time with a metronome is vital.</p>
 <p>There are already hundreds (thousands?) of metronomes available on the internet but I wanted to be able to tinker and get the click sound and the UI to my liking.</p>
@@ -58,38 +60,38 @@ if (!doNotTrack) {
 <h2 id="things-to-note">Things to note</h2>
 <p>There are two main articles that I read (and read again, and again&hellip;) when researching how to create this metronome. Both of them go into a lot mote detail than I do here and so are a lot more complicated. I highly recommend reading them but perhaps read mine as a &ldquo;beginner&rsquo;s introduction&rdquo; to ease you in first.</p>
 <ul>
-<li><a href="https://www.html5rocks.com/en/tutorials/audio/scheduling/">A Tale of Two Clocks - Scheduling Web Audio with Precision</a></li>
-<li><a href="https://meowni.ca/posts/metronomes/">Metronomes in Javascript</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/audio/scheduling/" target="_blank" rel="noopener">A Tale of Two Clocks - Scheduling Web Audio with Precision</a></li>
+<li><a href="https://meowni.ca/posts/metronomes/" target="_blank" rel="noopener">Metronomes in Javascript</a></li>
 </ul>
-<p>I should mention there&rsquo;s a great javascript library called <a href="https://tonejs.github.io/">Tone.js</a> that would have made this project easier, but I didn&rsquo;t use it for a couple of reasons. Firstly because I&rsquo;d already fallen down the rabbit hole of figuring it out with just vanilla JS and also because I&rsquo;m always adverse to referencing a complete library when I only need one or two simple features from it that I can implement myself.</p>
+<p>I should mention there&rsquo;s a great javascript library called <a href="https://tonejs.github.io/" target="_blank" rel="noopener">Tone.js</a> that would have made this project easier, but I didn&rsquo;t use it for a couple of reasons. Firstly because I&rsquo;d already fallen down the rabbit hole of figuring it out with just vanilla JS and also because I&rsquo;m always adverse to referencing a complete library when I only need one or two simple features from it that I can implement myself.</p>
 <h2 id="why-you-cant-we-just-use-setinterval">Why you can&rsquo;t we just use <code>setInterval()</code>?</h2>
 <p><code>setInterval()</code> can be used to repeatedly call a function x milliseconds apart. However, it&rsquo;s not accurate to the millisecond and can be early or late by some milliseconds depending on how much other stuff is going on since it runs on the main thread.</p>
-<p>You might wonder if we&rsquo;re being overly picky here and whether we&rsquo;ll notice when those intervals fire late. The answer is yes - according to <a href="https://meowni.ca/posts/metronomes/">this article</a>, musicians start to notice at around 40ms of latency.</p>
+<p>You might wonder if we&rsquo;re being overly picky here and whether we&rsquo;ll notice when those intervals fire late. The answer is yes - according to <a href="https://meowni.ca/posts/metronomes/" target="_blank" rel="noopener">this article</a>, musicians start to notice at around 40ms of latency.</p>
 <h2 id="web-audio-api">Web Audio API</h2>
 <p>Using the Web Audio API, we can use the <code>AudioContext</code>&rsquo;s <code>currentTime</code> property to accurately get an oscillator to play a note at that time:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// Create the audio context
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">audioContext</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> (window.<span style="color:#a6e22e">AudioContext</span> <span style="color:#f92672">||</span> window.<span style="color:#a6e22e">webkitAudioContext</span>)();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// Create the audio context
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">audioContext</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> (window.<span style="color:#a6e22e">AudioContext</span> <span style="color:#f92672">||</span> window.<span style="color:#a6e22e">webkitAudioContext</span>)();
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// create an oscillator
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">osc</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">createOscillator</span>();
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">osc</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">createOscillator</span>();
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// Set the sound frequency
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">frequency</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">800</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">frequency</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">800</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// Connect the oscillator to the output destination
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">connect</span>(<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">destination</span>);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">connect</span>(<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">destination</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// Start the oscilator in 1 second and stop after a short time
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">start</span>(<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">currentTime</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">start</span>(<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">currentTime</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">stop</span>(<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">currentTime</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.03</span>);
 </span></span></code></pre></div><p>The problem is, there&rsquo;s no time-accurate <code>setInterval()</code> equivalent for the Web Audio API. We could write code to schedule a certain number of clicks ahead, but that way we wouldn&rsquo;t be able to have the metronome run indefinitely until we want to stop it. We also wouldn&rsquo;t be able to alter the tempo whilst it&rsquo;s running.</p>
 <h2 id="the-solution">The solution</h2>
 <p>The solution is to use <code>setInterval()</code> and the Web Audio API together. We can use <code>setInterval()</code> to constantly add events (oscillator clicks/beeps) to the audio context. We&rsquo;ll have a &ldquo;look ahead&rdquo; where, at each interval, we&rsquo;ll schedule in any clicks that we need. The interval at which the click scheduling function is called and the length of the look ahead should overlap so that when <code>setInterval()</code> has its inevitable variance in timing, there should be no missed clicks.</p>
-<p>If that didn&rsquo;t make sense (and I don&rsquo;t blame you - it took a while to get my head around it), check out the diagrams in <a href="https://www.html5rocks.com/en/tutorials/audio/scheduling/#toc-rocksolid">this article</a> that help to visualise what&rsquo;s happening.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">scheduleNote</span>(<span style="color:#a6e22e">beatNumber</span>, <span style="color:#a6e22e">time</span>)
+<p>If that didn&rsquo;t make sense (and I don&rsquo;t blame you - it took a while to get my head around it), check out the diagrams in <a href="https://www.html5rocks.com/en/tutorials/audio/scheduling/#toc-rocksolid" target="_blank" rel="noopener">this article</a> that help to visualise what&rsquo;s happening.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">scheduleNote</span>(<span style="color:#a6e22e">beatNumber</span>, <span style="color:#a6e22e">time</span>)
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// create an oscillator
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">osc</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">createOscillator</span>();
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">osc</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">createOscillator</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">envelope</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">createGain</span>();
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">osc</span>.<span style="color:#a6e22e">frequency</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">beatNumber</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">800</span>;
@@ -107,19 +109,19 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">scheduler</span>()
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// while there are notes that will need to play before the next interval, schedule them and advance the pointer.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">nextNoteTime</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">currentTime</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">scheduleAheadTime</span> ) {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">nextNoteTime</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">audioContext</span>.<span style="color:#a6e22e">currentTime</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">scheduleAheadTime</span> ) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">scheduleNote</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">currentQuarterNote</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">nextNoteTime</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Advance current note and time by a quarter note (crotchet if you&#39;re posh)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">nextNoteTime</span> <span style="color:#f92672">+=</span> (<span style="color:#ae81ff">60.0</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tempo</span>); <span style="color:#75715e">// Add beat length to last beat time
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">nextNoteTime</span> <span style="color:#f92672">+=</span> (<span style="color:#ae81ff">60.0</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tempo</span>); <span style="color:#75715e">// Add beat length to last beat time
+</span></span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">currentQuarterNote</span><span style="color:#f92672">++</span>;    <span style="color:#75715e">// Advance the beat number, wrap to zero
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">currentQuarterNote</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>) {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">currentQuarterNote</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">currentQuarterNote</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>That&rsquo;s all there is to it. I&rsquo;ve only shown code snippets here, so be sure to <a href="https://github.com/grantjames/metronome">check out the full project on GitHub</a>.</p>
+</span></span></code></pre></div><p>That&rsquo;s all there is to it. I&rsquo;ve only shown code snippets here, so be sure to <a href="https://github.com/grantjames/metronome" target="_blank" rel="noopener">check out the full project on GitHub</a>.</p>
 
         
             <div class="coffee-container">
@@ -137,11 +139,11 @@ if (!doNotTrack) {
         
 
         <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     this.page.identifier = '\/posts\/7';
     
-    this.page.url = 'https:\/\/grantjam.es\/blog\/7';
+    
     };
     (function() {
         if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
@@ -154,8 +156,9 @@ if (!doNotTrack) {
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
 
     </div>
 

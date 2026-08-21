@@ -8,18 +8,20 @@
     <title>Replacing a Danfoss TP9000 with a 3rd Generation Nest | Grant James</title>
 </head><body>
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-141186556-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script><header class="header">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEFF56CQKL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XEFF56CQKL');
+        }
+      </script><header class="header">
     <div class="main-container">
         <a href="/" class="header-logo">
             <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
@@ -64,37 +66,36 @@ if (!doNotTrack) {
 <p>Since I had three different brown wires, I labelled them so I could tell which was which in case they got mixed up. I then disconnected them from the existing panel and removed it from the wall.</p>
 <p>By looking at the existing wires and comparing them with the wiring diagrams in the Nest installation manual, I figured out that I have an S-Plan heating system. Therefore, I wired up the Heat Link like this:</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th>Danfoss</th>
-<th>Nest</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Power</td>
-<td>N and L</td>
-<td>N and L</td>
-</tr>
-<tr>
-<td>Hot Water</td>
-<td>3</td>
-<td>6</td>
-</tr>
-<tr>
-<td>Heating</td>
-<td>4</td>
-<td>3</td>
-</tr>
-<tr>
-<td>Sensor</td>
-<td>5 and 6</td>
-<td>T1 and T2</td>
-</tr>
-</tbody>
+	<thead>
+			<tr>
+					<th></th>
+					<th>Danfoss</th>
+					<th>Nest</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Power</td>
+					<td>N and L</td>
+					<td>N and L</td>
+			</tr>
+			<tr>
+					<td>Hot Water</td>
+					<td>3</td>
+					<td>6</td>
+			</tr>
+			<tr>
+					<td>Heating</td>
+					<td>4</td>
+					<td>3</td>
+			</tr>
+			<tr>
+					<td>Sensor</td>
+					<td>5 and 6</td>
+					<td>T1 and T2</td>
+			</tr>
+	</tbody>
 </table>
-<!-- raw HTML omitted -->
 <p>There are jumper wires from L to 2 and then from 2 to 5 (black in the picture below). The Danfoss thermostat didn’t have these (presumably because those connections are made internally), but the Nest needs them wired up manually.</p>
 <p><img src="heatlink_wiring.jpg" alt="Heat Link wiring with jumper cables"></p>
 <p>You can also see in the picture above that I drilled some holes in the back of the Heat Link so that the wires could go into the wall and not have to come out of the bottom.</p>
@@ -128,11 +129,11 @@ if (!doNotTrack) {
         
 
         <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     this.page.identifier = '\/posts\/4';
     
-    this.page.url = 'https:\/\/grantjam.es\/blog\/4';
+    
     };
     (function() {
         if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
@@ -145,8 +146,9 @@ if (!doNotTrack) {
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
 
     </div>
 

@@ -8,18 +8,20 @@
     <title>Light and Dark theme toggle on a Laravel website | Grant James</title>
 </head><body>
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-141186556-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script><header class="header">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEFF56CQKL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XEFF56CQKL');
+        }
+      </script><header class="header">
     <div class="main-container">
         <a href="/" class="header-logo">
             <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
@@ -51,12 +53,12 @@ if (!doNotTrack) {
 <p>We&rsquo;ll achieve this by adding a button to the page that will call a Javascript function that adds or removes a class from our <code>body</code> tag and sets a cookie with our preference. The back end code will know to look for this cookie and will set the body class when it builds the page. This persistence is done in the back end rather than by the Javascript so that there&rsquo;s no flash between styles when the Javascript is loaded.</p>
 <h2 id="css">CSS</h2>
 <p>I&rsquo;ll keep the CSS simple so it doesn&rsquo;t detract from the main point of this post. Let&rsquo;s assume you have the following basic CSS for a light theme on a website. It&rsquo;s simply just black text on a white background.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">body</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">body</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">black</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background-color</span>: <span style="color:#66d9ef">white</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>A simple &ldquo;dark theme&rdquo; could be to just invert the colours so that we have white text on a black background. We&rsquo;ll put these in a <code>.dark-theme</code> class.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">dark-theme</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">dark-theme</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">white</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background-color</span>: <span style="color:#66d9ef">black</span>;
 </span></span><span style="display:flex;"><span>}
@@ -67,7 +69,7 @@ if (!doNotTrack) {
 <p>Next, we need some Javascript that will allow us to click an element on the page to toggle between the two themes.</p>
 <p>The following Javascript attaches a <code>click</code> event to an element with the ID <code>theme-toggle</code> and toggles between two classes on that element to show a sun icon or a moon icon (a moon is shown when the light theme is active, and a sun when the dark theme is active). It also adds or removes the <code>dark-theme</code> class from the body element.</p>
 <p>Lastly, it sets a cookie called &ldquo;theme&rdquo; that holds the value &ldquo;light&rdquo; or &ldquo;dark&rdquo;.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">toggle_icon</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;theme-toggle&#39;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">toggle_icon</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;theme-toggle&#39;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">body</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementsByTagName</span>(<span style="color:#e6db74">&#39;body&#39;</span>)[<span style="color:#ae81ff">0</span>];
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sun_class</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;icon-sun&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">moon_class</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;icon-moon&#39;</span>;
@@ -104,12 +106,12 @@ if (!doNotTrack) {
 <h2 id="php--laravel">PHP &amp; Laravel</h2>
 <p>In our back end code, we need to get the value of the theme cookie and make it available to our master blade layout.</p>
 <p>Firstly, since the cookie was set by Javascript, we didn&rsquo;t encrypt it and Laravel can, by default, only see cookies encrypted by Laravel. We can specify exceptions in the <code>App\Http\Middleware\EncryptCookies</code> class.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> $except <span style="color:#f92672">=</span> [
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> $except <span style="color:#f92672">=</span> [
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;theme&#39;</span>
 </span></span><span style="display:flex;"><span>];
 </span></span></code></pre></div><p>Now that Laravel can read the cookie, we can use a view composer to make it&rsquo;s value available to the master layout.</p>
 <p>I&rsquo;ve placed the following code in the <code>boot()</code> function of the <code>App\Providers\AppServiceProvider</code> class. For a small application this is fine but you may want to create your own dedicated service provider for this if you&rsquo;re working on a larger application.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">view</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">composer</span>(<span style="color:#e6db74">&#39;layouts.master&#39;</span>, <span style="color:#66d9ef">function</span> ($view) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">view</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">composer</span>(<span style="color:#e6db74">&#39;layouts.master&#39;</span>, <span style="color:#66d9ef">function</span> ($view) {
 </span></span><span style="display:flex;"><span>    $theme <span style="color:#f92672">=</span> <span style="color:#a6e22e">\Cookie</span><span style="color:#f92672">::</span><span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;theme&#39;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($theme <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;dark&#39;</span> <span style="color:#f92672">&amp;&amp;</span> $theme <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;light&#39;</span>) {
 </span></span><span style="display:flex;"><span>        $theme <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;light&#39;</span>;
@@ -122,9 +124,9 @@ if (!doNotTrack) {
 <p>Last of all, we need to set the relevant classes in our view. As mentioned previously, we could let our Javascript set this class, but then there would be a flash of the default styling displayed on the page whilst the Javascript was loaded and evaluated. By setting it in the back end it&rsquo;s available straight away when it reaches the browser.</p>
 <p>I&rsquo;m using blade templates in my Laravel project. The two snippets of code below are in my master layout file. The <code>$theme</code> variable was set using a view composer in the <code>AppServiceProvider</code> as mentioned above.</p>
 <p>First the element that I&rsquo;m clicking to toggle the theme:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;theme-toggle&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon-{{ $theme == &#39;dark&#39; ? &#39;sun&#39; : &#39;moon&#39; }}&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;theme-toggle&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon-{{ $theme == &#39;dark&#39; ? &#39;sun&#39; : &#39;moon&#39; }}&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt;
 </span></span></code></pre></div><p>And this is where I add the class to the <code>body</code> element:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ $theme . &#39;-theme&#39; }}&#34;</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ $theme . &#39;-theme&#39; }}&#34;</span>&gt;
 </span></span></code></pre></div><h2 id="summary">Summary</h2>
 <p>That&rsquo;s all there is to it! We&rsquo;ve successfully set a cookie and applied some styles using Javascript to toggle the theme. We&rsquo;ve then utilised that cookie in our back end code to set the relevant classes when the page is generated for subsequent page loads.</p>
 
@@ -144,9 +146,9 @@ if (!doNotTrack) {
         
 
         <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
-    
+    this.page.identifier = '\/posts\/12';
     
     
     };
@@ -161,8 +163,9 @@ if (!doNotTrack) {
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
 
     </div>
 

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    
+    
+    <title>Reducers: Keeping State Transitions Under Control | Grant James</title>
+</head><body>
+        
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEFF56CQKL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XEFF56CQKL');
+        }
+      </script><header class="header">
+    <div class="main-container">
+        <a href="/" class="header-logo">
+            <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
+                <path fill="none" d="M15 8l14.729 14.382L15 35.367"></path>
+              </svg>
+            </span>
+            <span class="logo__text">Grant James</span>
+            <span class="logo__cursor">_</span>
+        </a>
+
+        
+    </div>
+</header><div class="main-container">
+    <div class="blog-post">
+        <h1>Reducers: Keeping State Transitions Under Control</h1>
+        
+
+<time datetime="2026-08-21" class="post-date">21 August 2026</time>
+
+    
+        
+        <a class="tag-link" href="https://grantjames.github.io/tags/state-management">state-management</a>
+    
+        
+        <a class="tag-link" href="https://grantjames.github.io/tags/frontend">frontend</a>
+    
+        
+        <a class="tag-link" href="https://grantjames.github.io/tags/react">react</a>
+    
+        
+        <a class="tag-link" href="https://grantjames.github.io/tags/design-patterns">design-patterns</a>
+    
+
+        <p>State management is one of those problems that starts out simple and gradually becomes complicated so it’s no wonder there are plenty of libraries designed to help with this, with Redux being one of the most popular in the Javascript ecosystem.</p>
+<p>One concept that is core to many state management libraries is a simple idea: the reducer pattern.</p>
+<p>A reducer provides a controlled way of changing state. The focus of this article is to look at how it gives us somewhere to define the rules about how state is allowed to change, so that we are less likely to end up with invalid state.</p>
+<h2 id="the-problem-with-managing-state-independently">The problem with managing state independently</h2>
+<p>Imagine an app that tracks a game with checkpoints. A player starts by entering their team name, then progresses through a series of checkpoints.</p>
+<p>We might initially model the state like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">State</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;start&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;checkpoint&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;finished&#34;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">checkpoint</span>: <span style="color:#66d9ef">number</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">teamName</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>We could then update these properties directly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;checkpoint&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">checkpoint</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span></code></pre></div><p>And when the final checkpoint is completed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;finished&#34;</span>;
+</span></span></code></pre></div><p>The problem is that nothing stops us from making changes that would put our application in an invalid state.</p>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;finished&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">checkpoint</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
+</span></span></code></pre></div><p>If we have 5 checkpoints, we shouldn’t be showing the “finished” page, whilst also tracking that we’re on checkpoint 3.</p>
+<p>We could also accidentally do something like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;checkpoint&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">teamName</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span></code></pre></div><p>Now we&rsquo;re displaying a checkpoint to a player who doesn&rsquo;t have a team name.</p>
+<p>The problem isn&rsquo;t necessarily the individual properties. The problem is the <strong>relationships between them</strong>.</p>
+<p>As the number of state properties increases, so does the number of possible combinations of those properties. Some of those combinations may be perfectly valid, while others make no sense.</p>
+<p>The challenge is therefore not just storing state. It&rsquo;s controlling how we get from one state to another.</p>
+<h2 id="enter-the-reducer">Enter the reducer</h2>
+<p>A reducer is a function that takes the current state and an action, and returns the next state:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">reducer</span>(<span style="color:#a6e22e">state</span>: <span style="color:#66d9ef">State</span>, <span style="color:#a6e22e">action</span>: <span style="color:#66d9ef">Action</span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">State</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>An action describes something that happened. For our checkpoint application, we might have:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Action</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|</span> { <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;start&#34;</span>; <span style="color:#a6e22e">teamName</span>: <span style="color:#66d9ef">string</span> }
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|</span> { <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;completeCheckpoint&#34;</span> }
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|</span> { <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;skipCheckpoint&#34;</span> }
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|</span> { <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;finish&#34;</span> };
+</span></span></code></pre></div><p>Instead of directly modifying the state, the application dispatches an action:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#a6e22e">dispatch</span>({ <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;completeCheckpoint&#34;</span> });
+</span></span></code></pre></div><p>The reducer then decides what the new state should be.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">reducer</span>(<span style="color:#a6e22e">state</span>: <span style="color:#66d9ef">State</span>, <span style="color:#a6e22e">action</span>: <span style="color:#66d9ef">Action</span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">State</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">switch</span> (<span style="color:#a6e22e">action</span>.<span style="color:#66d9ef">type</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;start&#34;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>        ...<span style="color:#a6e22e">state</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;checkpoint&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">checkpoint</span>: <span style="color:#66d9ef">1</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">teamName</span>: <span style="color:#66d9ef">action.teamName</span>
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;completeCheckpoint&#34;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>        ...<span style="color:#a6e22e">state</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">checkpoint</span>: <span style="color:#66d9ef">state.checkpoint</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;finish&#34;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>        ...<span style="color:#a6e22e">state</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;finished&#34;</span>
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">state</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>All the responsibility for changing state now lives in this reducer. The application itself isn’t in charge of incrementing the current checkpoint, it simply sends the <code>completeCheckpoint</code> event to the reducer, and the reducer decides what should happen in response to this.</p>
+<h2 id="actions-describe-events-not-mutations">Actions describe events, not mutations</h2>
+<p>It’s useful to notice that the actions are describing the events, not mutations to the underlying data.</p>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>{ <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;completeCheckpoint&#34;</span> }
+</span></span></code></pre></div><p>is preferable to something like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>{ <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;setCheckpoint&#34;</span>, <span style="color:#a6e22e">value</span>: <span style="color:#66d9ef">4</span> }
+</span></span></code></pre></div><p>If we later change how checkpoints work, we can change the reducer without having to change every caller that triggers the transition.</p>
+<blockquote>
+<p>Note: Reducers are not a React concept. Most people will be familiar with reducers from the React hook <code>useReducer</code>, but the pattern itself is not specifically a React thing.</p>
+</blockquote>
+<h2 id="the-key-take-away">The Key Take Away</h2>
+<p>The main focus of this article was to illustrate that a reducer isn’t just a way of writing state updates, but is a way of having a centralised place to define how state changes over time.</p>
+<p>Instead of allowing different parts of an application to independently manipulate pieces of state, we describe events and let the reducer decide how those events transform the current state.</p>
+<p>For a simple application, a reducer may be completely unnecessary. But when state starts having relationships, dependencies and meaningful transitions, a reducer can really help.</p>
+
+        
+
+        <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    this.page.identifier = '\/posts\/14';
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "gjames" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
+
+    </div>
+
+        </div><div class="main-container">
+    <footer class="footer">
+        <ul class="footer__icons">
+            <li>
+                <a href="/about">
+                    <i class="icon-user-o"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/grantjames" target="_blank">
+                    <i class="icon-github-circled"></i>
+                </a>
+            </li>
+            <li>
+                <a href="http://uk.linkedin.com/pub/grant-james/58/210/766" target="_blank">
+                    <i class="icon-linkedin-squared"></i>
+                </a>
+            </li>
+        </ul>
+
+        <div class="footer-text">Software Engineer from Birmingham, UK</div>
+    </footer>
+</div></body>
+</html>
